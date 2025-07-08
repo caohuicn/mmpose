@@ -5,7 +5,10 @@ from typing import Dict, List, Optional, Tuple, Union
 import cv2
 import mmcv
 import numpy as np
+import matplotlib
+
 from matplotlib import pyplot as plt
+matplotlib.use('TkAgg')
 from mmengine.dist import master_only
 from mmengine.structures import InstanceData
 
@@ -291,8 +294,10 @@ class Pose3dLocalVisualizer(PoseLocalVisualizer):
         fig.tight_layout()
         fig.canvas.draw()
 
+        buf = fig.canvas.tostring_argb()
         pred_img_data = np.frombuffer(
-            fig.canvas.tostring_rgb(), dtype=np.uint8)
+            buf, dtype=np.uint8)
+        pred_img_data = pred_img_data[np.arange(pred_img_data.shape[0]) % 4 != 0]
 
         if not pred_img_data.any():
             pred_img_data = np.full((vis_height, vis_width, 3), 255)
