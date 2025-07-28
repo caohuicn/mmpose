@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib
 
 from matplotlib import pyplot as plt
-matplotlib.use('TkAgg')
+# matplotlib.use('TkAgg')
 from mmengine.dist import master_only
 from mmengine.structures import InstanceData
 
